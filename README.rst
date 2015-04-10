@@ -3,5 +3,11 @@ Simple Pipeline Data Processing for Python
 
 |Status| 
 
+|Docs|
+
 .. |Status| image:: https://travis-ci.org/renshawbay/pipeline.svg?branch=master
    :target: https://travis-ci.org/renshawbay/pipeline
+
+.. |Docs| image:: https://readthedocs.org/projects/python-pipeline/badge/?version=latest
+   :target: https://readthedocs.org/projects/python-pipeline/?badge=latest
+   :alt: Documentation Status
