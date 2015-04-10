@@ -1,9 +1,9 @@
 Simple Pipeline Data Processing for Python
 ==========================================
 
-|Status| 
+|Status| |Docs|
 
-|Docs|
+Documentation here: http://python-pipeline.readthedocs.org/en/latest/
 
 .. |Status| image:: https://travis-ci.org/renshawbay/pipeline.svg?branch=master
    :target: https://travis-ci.org/renshawbay/pipeline
