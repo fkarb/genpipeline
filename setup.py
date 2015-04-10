@@ -12,7 +12,7 @@ setup_params = dict(
     packages=find_packages(),
     test_suite = "nose.collector",
     version = "0.1.0",
-    install_requires = ["greenlet>=0.4.0"],
+    install_requires = ["greenlet>=0.4.0", "sqlalchemy>=0.7.0"],
     tests_require = ["nose>=1.2.1"],
 )
 
