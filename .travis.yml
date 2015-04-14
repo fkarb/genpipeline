@@ -5,4 +5,4 @@ install:
     - pip install --use-mirrors -r test-requirements.pip
 services:
   - rabbitmq
-script: nosetests -c nose.cfg --with-coverage --cover-package=pipeline
+script: nosetests -c nose.cfg --with-coverage --cover-package=genpipeline
