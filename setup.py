@@ -14,6 +14,10 @@ setup_params = dict(
     version = "0.1.0",
     install_requires = ["greenlet>=0.4.0", "sqlalchemy>=0.7.0"],
     tests_require = ["nose>=1.2.1"],
+    author = "Renshaw Bay",
+    author_email = "technology@renshawbay.com",
+    url="https://github.com/renshawbay/genpipeline",
+    classifiers=["License :: OSI Approved :: MIT License"],
 )
 
 if __name__ == '__main__':
