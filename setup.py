@@ -1,14 +1,14 @@
 """
-Setup for pipeline
+Setup for genpipeline
 
-Setup script for building pipeline package
+Setup script for building genpipeline package
 """
 
 from setuptools import find_packages, setup
 
 setup_params = dict(
-    name="pipeline",
-    description="pipeline Python package",
+    name="genpipeline",
+    description="A simple Python coroutine-based method for creating data processing pipelines",
     packages=find_packages(),
     test_suite = "nose.collector",
     version = "0.1.0",

@@ -1,5 +1,5 @@
 import unittest
-from pipeline import *
+from genpipeline import *
 import sys
 
 @pipefilter
