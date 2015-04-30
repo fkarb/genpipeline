@@ -160,20 +160,22 @@ def upload_csv(data, engine, table, columns):
     :param table: name of table (including schema if appropriate) to insert into
     :param columns: list of columns to insert into 
     """
-    with closing(engine.raw_connection()) as conn:
-        with conn.cursor() as cursor:
-            data = ([row.get(column) for column in columns] for row in data)
-            if hasattr(cursor, "copy_from"):
-                cursor.copy_from(CSVFileAdapter(data, dialect=tabdialect, null_string=r"\N"),
-                             table,
-                             columns=columns)
-            else:
-                stmt = "INSERT INTO %s (%s) VALUES (%s)" % (table, ",".join(columns), ",".join(["?"] * len(columns)))
-                batch = []
-                for row in data:
-                    batch.append(row)
-                    if len(batch) >= 100:
+    with closing(engine.raw_connection()) as rawconn:
+        with rawconn.connection as conn:
+            with conn.cursor() as cursor:
+                data = ([row.get(column) for column in columns] for row in data)
+                if hasattr(cursor, "copy_from"):
+                    cursor.copy_from(CSVFileAdapter(data, dialect=tabdialect, null_string=r"\N"),
+                                 table,
+                                 columns=columns)
+                else:
+                    stmt = "INSERT INTO %s (%s) VALUES (%s)" % (table, ",".join(columns), 
+                                                                ",".join(["?"] * len(columns)))
+                    batch = []
+                    for row in data:
+                        batch.append(row)
+                        if len(batch) >= 100:
+                            cursor.executemany(stmt, batch)
+                            batch = []
+                    if batch:
                         cursor.executemany(stmt, batch)
-                        batch = []
-                if batch:
-                    cursor.executemany(stmt, batch)
