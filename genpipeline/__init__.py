@@ -461,3 +461,12 @@ def null():
 
     while True:
         _ = (yield)
+
+
+@pipefilter
+def project(keys, target=None):
+    """Projection operator - restrict attributes to those specified in the ``keys`` argument"""
+
+    while True:
+        data = (yield)
+        target.send({k: v for k, v in data.items() if k in keys})
