@@ -127,6 +127,10 @@ import sys
 import inspect
 from functools import wraps
 from greenlet import greenlet
+import logging
+
+
+_log = logging.Logger(__name__)
 
 
 def coroutine(func):
@@ -470,3 +474,57 @@ def project(keys, target=None):
     while True:
         data = (yield)
         target.send({k: v for k, v in data.items() if k in keys})
+
+
+@pipefilter
+def rename(*renames, quiet=False, target=None):
+    """Rename operators - parallel attribute rename
+
+    :param renames: list of (old_name, new_name) pairs
+    :param quiet: if set to True, don't log warnings when renames fail due to missing keys
+    """
+
+    while True:
+        data = (yield)
+        for old_name, new_name in renames:
+            try:
+                data[new_name] = data.pop(old_name)
+            except KeyError:
+                if not quiet:
+                    _log.warning("Failed to rename %s->%s. Failing row contains: %s" % (
+                                    old_name, new_name, data))
+        target.send(data)
+
+
+@pipefilter
+def set_default(value, default, default_is_key=False, target=None):
+    """Set the field value to the given default if it doesn't already exist or is None
+
+    :param value: the name of a key (or a list / tuple of keys) to set to the default value
+    :param default: the default value to set (see `default_is_key`)
+    :param default_is_key: if True, default should be a dict mapping key to default value
+    """
+
+    if isinstance(value, (list, tuple)):
+        while True:
+            data = (yield)
+
+            for key in value:
+                if data.get(key) is None:
+                    if default_is_key:
+                        data[key] = data[default]
+                    else:
+                        data[key] = default
+
+            target.send(data)
+    else:
+        while True:
+            data = (yield)
+
+            if data.get(value) is None:
+                if default_is_key:
+                    data[value] = data[default]
+                else:
+                    data[value] = default
+
+            target.send(data)
