@@ -124,6 +124,7 @@ DB Module
 """
 
 import sys
+import csv
 import inspect
 from functools import wraps
 from greenlet import greenlet
@@ -528,3 +529,26 @@ def set_default(value, default, default_is_key=False, target=None):
                     data[value] = default
 
             target.send(data)
+
+
+@pipesource
+def csv_source(file, target=None, **kwargs):
+    """Pipeline source pushing rows (as dicts) from a file-like object containing CSV data
+
+    :py:class`csv.DictReader` is used to parse the CSV file. Any additional keyword arguments
+    passed to this function are passed to the :py:class`csv.DictReader` constructor.
+
+    :param file: a file-like object containing CSV data
+    """
+
+    try:
+        reader = csv.DictReader(file, **kwargs)
+        for row in reader:
+            target.send(row)
+        target.close()
+    except Exception as e:
+        try:
+            target.throw(e)
+        except StopIteration:
+            pass
+        raise e
