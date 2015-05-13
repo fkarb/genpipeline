@@ -11,7 +11,7 @@ setup_params = dict(
     description="A simple Python coroutine-based method for creating data processing pipelines",
     packages=find_packages(),
     test_suite = "nose.collector",
-    version = "0.1.2",
+    version = "0.1.3",
     install_requires = ["greenlet>=0.4.0", "sqlalchemy>=0.7.0"],
     tests_require = ["nose>=1.2.1"],
     author = "Renshaw Bay",
