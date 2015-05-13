@@ -107,7 +107,18 @@ Broadcast / Iterators
 
 .. autofunction:: broadcast
 .. autofunction:: iter_filter
+
+Sources
+-------
+.. autofunction:: csv_source
 .. autofunction:: iter_source
+
+Filters
+-------
+.. autofunction:: printer
+.. autofunction:: project
+.. autofunction:: rename
+.. autofunction:: set_default
 
 Sinks
 -----
@@ -535,8 +546,8 @@ def set_default(value, default, default_is_key=False, target=None):
 def csv_source(file, target=None, **kwargs):
     """Pipeline source pushing rows (as dicts) from a file-like object containing CSV data
 
-    :py:class`csv.DictReader` is used to parse the CSV file. Any additional keyword arguments
-    passed to this function are passed to the :py:class`csv.DictReader` constructor.
+    :py:class:`csv.DictReader` is used to parse the CSV file. Any additional keyword arguments
+    passed to this function are passed to the :py:class:`csv.DictReader` constructor.
 
     :param file: a file-like object containing CSV data
     """

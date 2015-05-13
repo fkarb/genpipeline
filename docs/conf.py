@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# pipeline documentation build configuration file, created by
+# genpipeline documentation build configuration file, created by
 # sphinx-quickstart on Thu Mar  7 13:23:20 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -41,7 +41,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'pipeline'
+project = 'genpipeline'
 copyright = '2013-2015, Renshaw Bay'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -165,7 +165,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pipelinedoc'
+htmlhelp_basename = 'genpipelinedoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -184,7 +184,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'pipeline.tex', 'pipeline Documentation',
+  ('index', 'genpipeline.tex', 'genpipeline Documentation',
    'Renshaw Bay', 'manual'),
 ]
 
@@ -214,7 +214,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pipeline', 'pipeline Documentation',
+    ('index', 'genpipeline', 'genpipeline Documentation',
      ['Renshaw Bay'], 1)
 ]
 
@@ -228,8 +228,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'pipeline', 'pipeline Documentation',
-   'Renshaw Bay', 'pipeline', 'One line description of project.',
+  ('index', 'genpipeline', 'genpipeline Documentation',
+   'Renshaw Bay', 'genpipeline', 'One line description of project.',
    'Miscellaneous'),
 ]
 
