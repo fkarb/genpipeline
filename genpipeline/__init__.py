@@ -133,10 +133,12 @@ DB Module
 .. automodule:: pipeline.db
 
 """
+from copy import copy
 
 import sys
 import csv
 import inspect
+import re
 from functools import wraps
 from greenlet import greenlet
 import logging
@@ -506,6 +508,42 @@ def rename(*renames, quiet=False, target=None):
                     _log.warning("Failed to rename %s->%s. Failing row contains: %s" % (
                                     old_name, new_name, data))
         target.send(data)
+
+
+@pipefilter
+def rename_regexp(*renames, quiet=False, target=None):
+    """Rename operators with regular expressions - parallel attribute rename
+
+    :param renames: list of (old_name, new_name) pairs
+    :param quiet: if set to True, don't log warnings when renames fail due to missing keys
+    """
+
+    compiled_renames = [(re.compile(regexp), substitution) for regexp, substitution in renames]
+
+    while True:
+        data = (yield)
+
+        pending_renames = {}
+        for regexp, substitution in compiled_renames:
+            for key in data:
+                substituted = regexp.sub(substitution, key)
+                if substituted != key:
+                    if not quiet and key in pending_renames:
+                        _log.warning("Multiple rename_regexp matches for regexp %s in row: %s",
+                                     regexp.pattern, data)
+                    else:
+                        pending_renames[key] = substituted
+
+        new_data = copy(data)
+        for old_name, new_name in pending_renames.items():
+            new_data[new_name] = data[old_name]
+        for old_name in pending_renames:
+            if old_name not in pending_renames.values():
+                new_data.pop(old_name)
+        for key in set(data) - set(pending_renames):
+            new_data[key] = data[key]
+
+        target.send(new_data)
 
 
 @pipefilter

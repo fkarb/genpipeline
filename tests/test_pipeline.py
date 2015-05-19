@@ -104,3 +104,24 @@ class IterSinkTest(unittest.TestCase):
             pass
         else:
             assert False, "Expected TestError exception"
+
+
+class RenameRegexpTest(unittest.TestCase):
+    def test_rename(self):
+        result = []
+        iter_source([{"key_1": 1,
+                      "key_2": 2,
+                      "key_3" :3}]) | (
+            rename_regexp((r"^key_([0-9]+)$", r"\1_new"))
+            | appender(result))
+        self.assertEqual(list(sorted(result[0].keys())), ["1_new", "2_new", "3_new"])
+
+    def test_rename_parallel(self):
+        result = []
+        iter_source([{"key_1": 1,
+                      "key_2": 2,
+                      "key_3": 3}]) | (
+            rename_regexp((r"^key_1$", r"key_2"),
+                          (r"^key_2$", r"key_1"))
+            | appender(result))
+        self.assertEqual(result, [{"key_1": 2, "key_2": 1, "key_3": 3}])

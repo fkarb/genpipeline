@@ -166,8 +166,8 @@ def upload_csv(data, engine, table, columns):
                 data = ([row.get(column) for column in columns] for row in data)
                 if hasattr(cursor, "copy_from"):
                     cursor.copy_from(CSVFileAdapter(data, dialect=tabdialect, null_string=r"\N"),
-                                 table,
-                                 columns=columns)
+                                     table,
+                                     columns=columns)
                 else:
                     stmt = "INSERT INTO %s (%s) VALUES (%s)" % (table, ",".join(columns), 
                                                                 ",".join(["?"] * len(columns)))
