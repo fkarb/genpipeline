@@ -8,3 +8,4 @@ install:
 services:
   - rabbitmq
 script: nosetests -c nose.cfg --with-coverage --cover-package=genpipeline
+sudo: required
